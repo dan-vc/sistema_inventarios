@@ -14,6 +14,10 @@ class Product extends Model
         'name',
         'description',
         'price',
-        'stock',
+        'status',
+        'barcode',
+        'weight',
+        'color',
+        'marca'
     ];
 }
