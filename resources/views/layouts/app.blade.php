@@ -16,10 +16,11 @@
 
     <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link href="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.css" rel="stylesheet" />
 </head>
 
 <body>
-    <header class="flex justify-between items-center py-[0.5rem] px-[4rem] border-b-1 border-gray-500">
+    <header class="sticky w-full top-0 flex justify-between items-center py-[0.5rem] px-[4rem] border-b-1 border-gray-500 bg-white">
         <a class="navbar-brand" href="{{ url('/') }}">
             <img src="{{ asset('image/logo.png') }}" alt="Descripción" class="w-[5rem] h-[5rem] hover:opacity-60">
         </a>
@@ -53,7 +54,7 @@
         </nav>
     </header>
 
-    <main class="py-4">
+    <main class="py-4 max-w-[120rem] m-[0_auto] bg-gray-900 min-h-[90dvh]">
         @yield('content')
     </main>
     <script>
@@ -66,5 +67,6 @@
             }
         }
     </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/datepicker.min.js"></script>
 </body>
 </html>
