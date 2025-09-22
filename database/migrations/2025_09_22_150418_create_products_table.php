@@ -16,6 +16,11 @@ return new class extends Migration
             $table->string('name');
             $table->text('description');
             $table->decimal('price', 10, 2);
+            $table->string('status');
+            $table->string('barcode')->unique();
+            $table->decimal('weight', 8, 2);
+            $table->string('color');
+            $table->string('marca');
             $table->timestamps();
         });
     }
