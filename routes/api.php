@@ -11,3 +11,11 @@ Route::apiResource('products', ProductController::class);
 
 
 
+Route::get('/user', function (Request $request) {
+    return $request->user();
+})->middleware('auth:sanctum');
+
+
+Route::middleware('auth.basic')->get('/user' , function (Request $request){
+    return $request->user();
+});
