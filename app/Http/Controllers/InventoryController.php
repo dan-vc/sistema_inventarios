@@ -22,7 +22,7 @@ class InventoryController extends Controller
     {
         $validatedInventory = $request->validate([
             'product_id' => 'required|integer|exists:products,id',
-            'quantity' => 'required|integer'
+            'stock' => 'required|integer'
         ]);
 
         Inventory::create($validatedInventory);

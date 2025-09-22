@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Inventory;
 use App\Models\Product;
 use Illuminate\Http\Request;
 
@@ -24,7 +25,7 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $productos = Product::all();
-        return view('web.dashboard', compact('productos'));
+        $inventorys = Inventory::all();
+        return view('web.dashboard', compact('inventorys'));
     }
 }

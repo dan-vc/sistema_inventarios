@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Inventory;
 use App\Models\Product;
 use Illuminate\Http\Request;
 
@@ -24,11 +25,11 @@ class ProductController extends Controller
         $validatedProduct = $request->validate([
             'name' => 'required|string|max:255',
             'description' => 'nullable|string',
-            'price' => 'required|numeric',
-            'stock' => 'required|integer'
+            'price' => 'required|numeric'
         ]);
         
-        Product::create($validatedProduct);
+        $product = Product::create($validatedProduct);
+        Inventory::create(['product_id' => $product->id, 'stock' => 0]);
 
         return redirect()->route('products.index')->with('success', 'Producto creado con exito.');
     }
