@@ -19,65 +19,52 @@
 </head>
 
 <body>
-    <div id="app">
-        <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
-            <div class="container">
-                <a class="navbar-brand" href="{{ url('/') }}">
-                    {{ config('app.name', 'Laravel') }}
-                </a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
-                    <span class="navbar-toggler-icon"></span>
+    <header class="flex justify-between items-center py-[0.5rem] px-[4rem] border-b-1 border-gray-500">
+        <a class="navbar-brand" href="{{ url('/') }}">
+            <img src="{{ asset('image/logo.png') }}" alt="Descripción" class="w-[5rem] h-[5rem] hover:opacity-60">
+        </a>
+        <nav class="text-black flex gap-[0.5rem] items-center">
+            @guest  
+            @if (Route::has('login'))
+                <a class="block bg-black rounded-xl text-white p-[0.5rem_2rem] cursor-pointer" href="{{ route('login') }}">{{ __('Login') }}</a>
+            @endif
+
+            @if (Route::has('register'))
+                <a class="block bg-black rounded-xl text-white p-[0.5rem_2rem] cursor-pointer" href="{{ route('register') }}">{{ __('Register') }}</a>
+            @endif
+            @else
+            <div class="relative">
+                <button onclick="togglePanel(this)" class="bg-black rounded-xl text-white p-[0.5rem_2rem] cursor-pointer">
+                    {{ Auth::user()->name }}
                 </button>
+                <div style="display:none;" class="absolute top-[120%] right-0 w-[10rem] text-center bg-white rounded-md p-[1rem] shadow-[inset_-12px_-8px_40px_#46464620]">
+                    <a class="p-[0.4rem_0.4rem] block w-full bg-red-800 rounded-md text-white" href="{{ route('logout') }}"
+                        onclick="event.preventDefault();
+                                            document.getElementById('logout-form').submit();">
+                        {{ __('Logout') }}
+                    </a>
 
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <!-- Left Side Of Navbar -->
-                    <ul class="navbar-nav me-auto">
-
-                    </ul>
-
-                    <!-- Right Side Of Navbar -->
-                    <ul class="navbar-nav ms-auto">
-                        <!-- Authentication Links -->
-                        @guest
-                        @if (Route::has('login'))
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
-                        </li>
-                        @endif
-
-                        @if (Route::has('register'))
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
-                        </li>
-                        @endif
-                        @else
-                        <li class="nav-item dropdown">
-                            <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                                {{ Auth::user()->name }}
-                            </a>
-
-                            <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                                <a class="dropdown-item" href="{{ route('logout') }}"
-                                    onclick="event.preventDefault();
-                                                     document.getElementById('logout-form').submit();">
-                                    {{ __('Logout') }}
-                                </a>
-
-                                <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-                                    @csrf
-                                </form>
-                            </div>
-                        </li>
-                        @endguest
-                    </ul>
+                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                        @csrf
+                    </form>
                 </div>
             </div>
+            @endguest
         </nav>
+    </header>
 
-        <main class="py-4">
-            @yield('content')
-        </main>
-    </div>
+    <main class="py-4">
+        @yield('content')
+    </main>
+    <script>
+        function togglePanel(btn) {
+            const panel = btn.nextElementSibling;
+            if (panel.style.display === 'block') {
+            panel.style.display = 'none';
+            } else {
+            panel.style.display = 'block';
+            }
+        }
+    </script>
 </body>
-
 </html>
