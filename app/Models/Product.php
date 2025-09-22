@@ -20,4 +20,11 @@ class Product extends Model
         'color',
         'marca'
     ];
+
+    public function inventory()
+{
+    return $this->hasOne(Inventory::class);
 }
+
+}
+
