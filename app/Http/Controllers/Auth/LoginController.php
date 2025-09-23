@@ -63,7 +63,7 @@ class LoginController extends Controller
 
             Auth::login($user, remember: true);
 
-            return redirect(to: '/home');
+            return redirect(to: '/dashboard');
         } catch (\Exception $e) {
             return redirect(to: '/login')->withErrors(['google_error' => 'Error iniciando sesión con Google']);
         }
@@ -93,7 +93,7 @@ class LoginController extends Controller
 
             Auth::login($user, true);
 
-            return redirect('/home');
+            return redirect('/dashboard');
         } catch (\Exception $e) {
             return redirect('/login')->withErrors(['github_error' => 'Error iniciando sesión con GitHub']);
         }
@@ -125,7 +125,7 @@ class LoginController extends Controller
 
             Auth::login($user, true);
 
-            return redirect('/home');
+            return redirect('/dashboard');
         } catch (\Exception $e) {
             return redirect('/login')->withErrors(['facebook_error' => 'Error iniciando sesión con Facebook']);
         }
