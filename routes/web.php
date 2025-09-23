@@ -2,13 +2,14 @@
 
 use App\Http\Controllers\InventoryController;
 use App\Http\Controllers\ProductController;
+use App\Models\Product;
 use Illuminate\Support\Facades\Route;
 use Laravel\Socialite\Facades\Socialite;
 use Illuminate\Support\Facades\Auth;
 
 
 Route::get('/', function () {
-    return view('index', ['products' => \App\Models\Product::all()]);
+    return view('index', ['products' => Product::all()]);
 });
 
 Auth::routes();
