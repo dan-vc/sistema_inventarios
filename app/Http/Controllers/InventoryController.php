@@ -7,10 +7,16 @@ use Illuminate\Http\Request;
 
 class InventoryController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     public function index()
     {
         $inventories = Inventory::all();
-        return view('inventories.index', compact('inventories'));
+        return view('web.dashboard', compact('inventories'));
     }
 
     public function create()

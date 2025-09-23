@@ -9,6 +9,8 @@ class Inventory extends Model
 {
     /** @use HasFactory<\Database\Factories\InventoryFactory> */
     use HasFactory;
+    
+    protected $primaryKey = 'product_id';
 
     protected $fillable = [
         'product_id',

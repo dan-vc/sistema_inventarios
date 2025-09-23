@@ -11,12 +11,12 @@ class ProductController extends Controller
     public function index()
     {
         $products = Product::all();
-        return view('products.index')->with('products', $products);
+        return view('dashboard')->with('products', $products);
     }
 
     public function create()
     {
-        return view('products.create');
+        return view('web.create');
     }
 
     public function store(Request $request)
@@ -24,49 +24,74 @@ class ProductController extends Controller
         // Validate and store the product
         $validatedProduct = $request->validate([
             'name' => 'required|string|max:255',
-            'description' => 'nullable|string',
-            'price' => 'required|numeric'
+            'description' => 'required|string',
+            'price' => 'required|numeric|min:0',
+            'status' => 'required|string',
+            'barcode' => 'required|string|unique:products,barcode,',
+            'weight' => 'required|numeric|min:0',
+            'color' => 'required|string',
+            'marca' => 'required|string',
         ]);
-        
+
         $product = Product::create($validatedProduct);
         Inventory::create(['product_id' => $product->id, 'stock' => 0]);
 
-        return redirect()->route('products.index')->with('success', 'Producto creado con exito.');
+        return redirect()->route('dashboard')->with('success', 'Producto creado con exito.');
     }
 
-    public function show($id)   
+    public function show($id)
     {
         $product = Product::findOrFail($id);
-        return view('products.show', compact('product'));
+        return view('web.show', compact('product'));
     }
 
     public function edit($id)
     {
         $product = Product::findOrFail($id);
-        return view('products.edit', compact('product'));
+        return view('web.edit', compact('product'));
     }
 
     public function update(Request $request, $id)
     {
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'description' => 'required|string',
+            'price' => 'required|numeric|min:0',
+            'status' => 'required|string',
+            'barcode' => 'required|string',
+            'weight' => 'required|numeric|min:0',
+            'color' => 'required|string',
+            'marca' => 'required|string',
+            'stock' => 'required|integer|min:0'
+        ]);
+
         $product = Product::findOrFail($id);
 
-        // Validate and update the product
-        $validatedProduct = $request->validate([
-            'name' => 'required|string|max:255',
-            'description' => 'nullable|string',
-            'price' => 'required|numeric',
-            'stock' => 'required|integer'
+        // Actualizar el producto
+        $product->update([
+            'name' => $request->name,
+            'description' => $request->description,
+            'price' => $request->price,
+            'status' => $request->status,
+            'barcode' => $request->barcode,
+            'weight' => $request->weight,
+            'color' => $request->color,
+            'marca' => $request->marca
         ]);
-        
-        $product->update($validatedProduct);
 
-        return redirect()->route('products.index')->with('success', 'Producto actualizado con exito.');
+        // Actualizar o crear el inventario
+        $product->inventory()->updateOrCreate(
+            ['product_id' => $product->id],
+            ['stock' => $request->stock]
+        );
+
+        return redirect()->route('dashboard')->with('success', 'Producto actualizado con exito.');
     }
 
     public function destroy($id)
     {
         $product = Product::findOrFail($id);
         $product->delete();
-        return redirect()->route('products.index')->with('success', 'Producto eliminado con exito.');
+        return redirect()->route('dashboard')->with('success', 'Producto eliminado con exito.');
     }
 }

@@ -1,21 +1,20 @@
 <?php
 
 use App\Http\Controllers\InventoryController;
+use App\Http\Controllers\ProductController;
 use Illuminate\Support\Facades\Route;
 use Laravel\Socialite\Facades\Socialite;
 use Illuminate\Support\Facades\Auth;
 
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('index', ['products' => \App\Models\Product::all()]);
 });
 
 Auth::routes();
 
-
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-Route::resource('products', App\Http\Controllers\ProductController::class);
-
+Route::get('/dashboard', [InventoryController::class, 'index'])->name('dashboard');
+Route::resource('products', ProductController::class)->names('web.products');
 
 Route::get('login/google', [App\Http\Controllers\Auth\LoginController::class, 'redirectToGoogle']);
 Route::get('login/google/callback', [App\Http\Controllers\Auth\LoginController::class, 'handleGoogleCallback']);
@@ -25,8 +24,3 @@ Route::get('login/github/callback', [App\Http\Controllers\Auth\LoginController::
 
 Route::get('login/facebook', [App\Http\Controllers\Auth\LoginController::class, 'redirectToFacebook']);
 Route::get('login/facebook/callback', [App\Http\Controllers\Auth\LoginController::class, 'handleFacebookCallback']);
-
-
-Route::middleware(['auth'])->get('/dashboard', function () {
-    return view('/home');
-});
